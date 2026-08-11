@@ -1,3 +1,7 @@
+ /* 
+  Nour Alnajjar 
+*/
+
 const supportedCurrencies = {
   USD: { ar: "الدولار الأمريكي", en: "US Dollar" },
   EUR: { ar: "اليورو", en: "Euro" },
@@ -57,20 +61,22 @@ function formatNumber(value) {
 }
 
 function formatCurrency(value, currency) {
-  return `${formatNumber(value)} ${currency}`;
+  return ${formatNumber(value)} ${currency};
 }
 
 function getCurrencyLabel(currency) {
   const info = supportedCurrencies[currency] || { ar: currency, en: currency };
-  return `${currency} — ${info.ar} / ${info.en}`;
+  return ${currency} — ${info.ar} / ${info.en};
 }
 
 function setStatus(message, type = "success") {
+  if (!statusBox) return;
   statusBox.textContent = message;
-  statusBox.className = `status ${type}`;
+  statusBox.className = status ${type};
 }
 
 function setAuthMessage(message, type = "success") {
+  if (!authMessage) return;
   if (!message) {
     authMessage.classList.add("hidden");
     authMessage.textContent = "";
@@ -79,7 +85,7 @@ function setAuthMessage(message, type = "success") {
 
   authMessage.classList.remove("hidden");
   authMessage.textContent = message;
-  authMessage.className = `status ${type}`;
+  authMessage.className = status ${type};
 }
 
 function getUsers() {
@@ -96,40 +102,45 @@ function saveUsers(users) {
 
 function showAuthMode(isSignup) {
   authMode = isSignup ? "signup" : "login";
-  authName.classList.toggle("hidden", !isSignup);
-  authName.required = isSignup;
+  if (authName) {
+    authName.classList.toggle("hidden", !isSignup);
+    authName.required = isSignup;
+  }
 
-  authTitle.textContent = isSignup ? "إنشاء حساب جديد" : "تسجيل الدخول";
-  authSubtitle.textContent = isSignup
-    ? "أنشئ حسابًا جديدًا للبدء باستخدام التطبيق."
-    : "سجل دخولك للوصول إلى محول العملات.";
-  authSubmitBtn.textContent = isSignup ? "إنشاء حساب" : "تسجيل الدخول";
-  toggleAuthModeBtn.textContent = isSignup
-    ? "لديك حساب؟ سجّل الدخول"
-    : "ليس لديك حساب؟ أنشئ حسابًا";
+  if (authTitle) authTitle.textContent = isSignup ? "إنشاء حساب جديد" : "تسجيل الدخول";
+  if (authSubtitle) {
+    authSubtitle.textContent = isSignup
+      ? "أنشئ حسابًا جديدًا للبدء باستخدام التطبيق."
+      : "سجل دخولك للوصول إلى محول العملات.";
+  }
+  if (authSubmitBtn) authSubmitBtn.textContent = isSignup ? "إنشاء حساب" : "تسجيل الدخول";
+  if (toggleAuthModeBtn) {
+    toggleAuthModeBtn.textContent = isSignup
+      ? "لديك حساب؟ سجّل الدخول"
+      : "ليس لديك حساب؟ أنشئ حسابًا";
+  }
   setAuthMessage("");
 }
-
-function showMainApp(user) {
-  userNameLabel.textContent = user.name || user.email;
-  authScreen.classList.add("hidden");
-  mainApp.classList.remove("hidden");
+[8/12/2026 1:31 AM] Nour alnajjar🤍: function showMainApp(user) {
+  if (userNameLabel) userNameLabel.textContent = user.name || user.email;
+  if (authScreen) authScreen.classList.add("hidden");
+  if (mainApp) mainApp.classList.remove("hidden");
   localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
   startAutoRefresh();
   loadRates();
 }
 
 function showAuthScreen() {
-  mainApp.classList.add("hidden");
-  authScreen.classList.remove("hidden");
+  if (mainApp) mainApp.classList.add("hidden");
+  if (authScreen) authScreen.classList.remove("hidden");
   localStorage.removeItem(CURRENT_USER_KEY);
 }
 
 function handleAuthSubmit(event) {
   event.preventDefault();
-  const name = authName.value.trim();
-  const email = authEmail.value.trim().toLowerCase();
-  const password = authPassword.value.trim();
+  const name = authName ? authName.value.trim() : "";
+  const email = authEmail ? authEmail.value.trim().toLowerCase() : "";
+  const password = authPassword ? authPassword.value.trim() : "";
 
   if (!email || !password) {
     setAuthMessage("الرجاء إدخال البريد وكلمة المرور", "error");
@@ -154,7 +165,7 @@ function handleAuthSubmit(event) {
     saveUsers(users);
     showMainApp(newUser);
     setAuthMessage("تم إنشاء الحساب بنجاح", "success");
-    authForm.reset();
+    if (authForm) authForm.reset();
     return;
   }
 
@@ -168,7 +179,7 @@ function handleAuthSubmit(event) {
 
   showMainApp(user);
   setAuthMessage("تم تسجيل الدخول بنجاح", "success");
-  authForm.reset();
+  if (authForm) authForm.reset();
 }
 
 function getRate(from, to) {
@@ -184,6 +195,7 @@ function getRate(from, to) {
 }
 
 function renderRateSummary() {
+  if (!rateSummary) return;
   const base = "USD";
   const baseValue = rates[base] ?? fallbackRates[base];
   const baseLabel = getCurrencyLabel(base);
@@ -192,21 +204,21 @@ function renderRateSummary() {
     .filter((currency) => currency !== base)
     .map((currency) => {
       const value = rates[currency] ?? fallbackRates[currency];
-      const formatted = value.toFixed(6);
+      const formatted = value.toFixed(2);
       const label = getCurrencyLabel(currency);
-      return `
+      return 
         <div class="rate-pill">
           <div class="rate-pill-top">
             <span class="rate-currency">${currency}</span>
             <span class="rate-value">1 USD = ${formatted} ${currency}</span>
           </div>
           <div class="rate-pill-label">${label}</div>
-          <div class="rate-pill-foot">1 ${currency} = ${(1 / value).toFixed(6)} USD</div>
+          <div class="rate-pill-foot">1 ${currency} = ${(1 / value).toFixed(4)} USD</div>
         </div>
-      `;
+      ;
     });
 
-  rateSummary.innerHTML = `
+  rateSummary.innerHTML = 
     <div class="rate-summary-header">
       <strong>أسعار العملات الحالية</strong>
       <span class="rate-summary-subtitle">محدثة تلقائيًا عند توفر البيانات</span>
@@ -215,35 +227,37 @@ function renderRateSummary() {
       <div class="rate-pill base-pill">
         <div class="rate-pill-top">
           <span class="rate-currency">${base}</span>
-          <span class="rate-value">1 ${base} = ${baseValue.toFixed(6)} ${base}</span>
+          <span class="rate-value">1 ${base} = ${baseValue.toFixed(2)} ${base}</span>
         </div>
         <div class="rate-pill-label">${baseLabel}</div>
         <div class="rate-pill-foot">1 USD = 1 USD</div>
       </div>
       ${items.join("")}
     </div>
-    <div class="rate-note">تم التحقق من أحدث قيمة من API: 1 USD = ${((rates.EUR ?? fallbackRates.EUR)).toFixed(6)} EUR · ${((rates.TRY ?? fallbackRates.TRY)).toFixed(6)} TRY · ${((rates.SYP ?? fallbackRates.SYP)).toFixed(6)} SYP</div>
-  `;
+    <div class="rate-note">تم التحقق من أحدث قيمة من API: 1 USD = ${(rates.EUR ?? fallbackRates.EUR).toFixed(2)} EUR · ${(rates.TRY ?? fallbackRates.TRY).toFixed(2)} TRY · ${(rates.SYP ?? fallbackRates.SYP).toFixed(0)} SYP</div>
+  ;
 }
 
 function renderConversion(amount, from, to, rate) {
-  const result = amount * rate;
-  convertedAmount.textContent = formatCurrency(result, to);
-  conversionMeta.innerHTML = `
-    <div>${formatCurrency(amount, from)} = ${formatCurrency(result, to)}</div>
-    <div>سعر الصرف المستخدم: 1 ${from} = ${rate.toFixed(6)} ${to} · ${getCurrencyLabel(to)}</div>
-    <div>آخر تحديث: ${lastUpdatedText}</div>
-  `;
+[8/12/2026 1:31 AM] Nour alnajjar🤍: if (convertedAmount) convertedAmount.textContent = formatCurrency(amount * rate, to);
+  if (conversionMeta) {
+    conversionMeta.innerHTML = 
+      <div>${formatCurrency(amount, from)} = ${formatCurrency(amount * rate, to)}</div>
+      <div>سعر الصرف المستخدم: 1 ${from} = ${rate.toFixed(4)} ${to} · ${getCurrencyLabel(to)}</div>
+      <div>آخر تحديث: ${lastUpdatedText}</div>
+    ;
+  }
 }
 
 function convertCurrency() {
+  if (!amountInput) return;
   const amount = parseFloat(amountInput.value);
-  const from = fromCurrency.value;
-  const to = toCurrency.value;
+  const from = fromCurrency ? fromCurrency.value : "USD";
+  const to = toCurrency ? toCurrency.value : "EUR";
 
-  if (!amount || amount <= 0 || Number.isNaN(amount)) {
-    convertedAmount.textContent = "0.00";
-    conversionMeta.textContent = "يرجى إدخال مبلغ صحيح أكبر من الصفر.";
+  if (!amount  amount <= 0  Number.isNaN(amount)) {
+    if (convertedAmount) convertedAmount.textContent = "0.00";
+    if (conversionMeta) conversionMeta.textContent = "يرجى إدخال مبلغ صحيح أكبر من الصفر.";
     setStatus("إدخال غير صالح. الرجاء إدخال مبلغ صحيح.", "error");
     return;
   }
@@ -252,18 +266,18 @@ function convertCurrency() {
   renderConversion(amount, from, to, rate);
   setStatus(
     usingFallback
-      ? `تم استخدام أسعار بديلة لأن البيانات من API غير متاحة حالياً. آخر تحديث: ${lastUpdatedText}`
-      : `تم التحويل بنجاح باستخدام أحدث سعر متوفر. آخر تحديث: ${lastUpdatedText}`,
+      ? تم استخدام أسعار بديلة لأن البيانات من API غير متاحة حالياً. آخر تحديث: ${lastUpdatedText}
+      : تم التحويل بنجاح باستخدام أحدث سعر متوفر. آخر تحديث: ${lastUpdatedText},
     "success"
   );
 }
 
 function resetForm() {
-  amountInput.value = "100";
-  fromCurrency.value = "USD";
-  toCurrency.value = "EUR";
-  convertedAmount.textContent = "0.00";
-  conversionMeta.textContent = "اختر المبلغ وابدأ التحويل";
+  if (amountInput) amountInput.value = "100";
+  if (fromCurrency) fromCurrency.value = "USD";
+  if (toCurrency) toCurrency.value = "EUR";
+  if (convertedAmount) convertedAmount.textContent = "0.00";
+  if (conversionMeta) conversionMeta.textContent = "اختر المبلغ وابدأ التحويل";
   setStatus("تمت إعادة تعيين النموذج. يمكنك البدء من جديد.", "success");
 }
 
@@ -312,7 +326,7 @@ async function loadRates() {
 
     usingFallback = false;
     renderRateSummary();
-    setStatus(`تم تحميل أسعار الصرف الحية بنجاح. آخر تحديث: ${lastUpdatedText}`, "success");
+    setStatus(تم تحميل أسعار الصرف الحية بنجاح. آخر تحديث: ${lastUpdatedText}, "success");
     convertCurrency();
   } catch (error) {
     console.error(error);
@@ -325,28 +339,40 @@ async function loadRates() {
   }
 }
 
-authForm.addEventListener("submit", handleAuthSubmit);
-toggleAuthModeBtn.addEventListener("click", () => showAuthMode(authMode !== "signup"));
-logoutBtn.addEventListener("click", () => {
-  showAuthScreen();
-  showAuthMode(false);
-  authForm.reset();
-});
+if (authForm) authForm.addEventListener("submit", handleAuthSubmit);
+if (toggleAuthModeBtn) toggleAuthModeBtn.addEventListener("click", () => showAuthMode(authMode !== "signup"));
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    showAuthScreen();
+    showAuthMode(false);
+    if (authForm) authForm.reset();
+  });
+}
 
-convertBtn.addEventListener("click", convertCurrency);
-refreshBtn.addEventListener("click", () => {
-  loadRates();
-});
-swapBtn.addEventListener("click", () => {
-  const temp = fromCurrency.value;
-  fromCurrency.value = toCurrency.value;
-  toCurrency.value = temp;
-  convertCurrency();
-});
-resetBtn.addEventListener("click", resetForm);
-[amountInput, fromCurrency, toCurrency].forEach((element) => {
-  element.addEventListener("input", convertCurrency);
-  element.addEventListener("change", convertCurrency);
+if (convertBtn) convertBtn.addEventListener("click", convertCurrency);
+if (refreshBtn) {
+  refreshBtn.addEventListener("click", () => {
+    loadRates();
+  });
+}
+
+if (swapBtn) {
+  swapBtn.addEventListener("click", () => {
+    if (fromCurrency && toCurrency) {
+      const temp = fromCurrency.value;
+      fromCurrency.value = toCurrency.value;
+      toCurrency.value = temp;
+      convertCurrency();
+    }
+  });
+}
+
+if (resetBtn) resetBtn.addEventListener("click", resetForm);
+[8/12/2026 1:31 AM] Nour alnajjar🤍: [amountInput, fromCurrency, toCurrency].forEach((element) => {
+  if (element) {
+    element.addEventListener("input", convertCurrency);
+    element.addEventListener("change", convertCurrency);
+  }
 });
 
 document.addEventListener("visibilitychange", () => {
@@ -360,8 +386,9 @@ window.addEventListener("focus", () => {
 });
 
 function populateCurrencyOptions() {
+  if (!fromCurrency || !toCurrency) return;
   const options = currencyOrder
-    .map((currency) => `<option value="${currency}">${currency} — ${supportedCurrencies[currency].ar} / ${supportedCurrencies[currency].en}</option>`)
+    .map((currency) => <option value="${currency}">${currency} — ${supportedCurrencies[currency].ar} / ${supportedCurrencies[currency].en}</option>)
     .join("");
 
   fromCurrency.innerHTML = options;
@@ -372,6 +399,7 @@ function populateCurrencyOptions() {
 
 const savedUser = JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || "null");
 populateCurrencyOptions();
+
 if (savedUser) {
   showMainApp(savedUser);
 } else {
@@ -380,5 +408,3 @@ if (savedUser) {
 }
 
 renderRateSummary();
-
-// رفع كومينت
