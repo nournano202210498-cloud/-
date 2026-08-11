@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>محول العملات</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <section id="authScreen" class="auth-screen active">
+        <div class="auth-card">
+          <div class="badge">🔐 حسابك</div>
+          <h1 id="authTitle">تسجيل الدخول</h1>
+          <p id="authSubtitle">سجل دخولك أو أنشئ حسابًا جديدًا لبدء استخدام محول العملات.</p>
+
+          <form id="authForm" class="auth-form">
+            <input id="authName" type="text" placeholder="الاسم الكامل" autocomplete="name" />
+            <input id="authEmail" type="email" placeholder="البريد الإلكتروني" autocomplete="email" required />
+            <input id="authPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required />
+            <button class="btn btn-primary full-width" type="submit" id="authSubmitBtn">تسجيل الدخول</button>
+          </form>
+
+          <button id="toggleAuthModeBtn" class="link-btn" type="button">ليس لديك حساب؟ أنشئ حسابًا</button>
+          <div id="authMessage" class="status hidden"></div>
+        </div>
+      </section>
+
+      <div id="mainApp" class="main-app hidden">
+        <header class="topbar">
+          <div>
+            <h2>مرحبًا، <span id="userNameLabel">المستخدم</span> 👋</h2>
+            <p>حول الأموال بسرعة وبشكل عملي</p>
+          </div>
+          <div class="topbar-badges">
+            <span class="mini-badge">⚡ أسعار حية</span>
+            <span class="mini-badge">🔒 حساب آمن</span>
+          </div>
+        </header>
+
+        <section class="hero">
+          <div class="converter-card">
+            <div class="hero-title">
+              <div class="badge">💱</div>
+              <h2>محول العملات الذكي</h2>
+            </div>
+            <p class="subtext">حوّل بين الدولار واليورو والليرة التركية والسورية في لحظة واحدة باستخدام أحدث الأسعار المتاحة.</p>
+
+            <div class="field">
+              <label for="amount">المبلغ</label>
+              <input id="amount" type="number" min="0" step="0.01" value="100" />
+            </div>
+
+            <div class="row">
+              <div class="field">
+                <label for="fromCurrency">من</label>
+                <select id="fromCurrency" class="currency-select">
+                  <option value="USD">USD — الدولار الأمريكي / US Dollar</option>
+                  <option value="EUR">EUR — اليورو / Euro</option>
+                  <option value="TRY">TRY — الليرة التركية / Turkish Lira</option>
+                  <option value="SYP">SYP — الليرة السورية / Syrian Pound</option>
+                </select>
+              </div>
+
+              <button class="swap-btn" id="swapBtn" title="تبديل العملتين">⇄</button>
+
+              <div class="field">
+                <label for="toCurrency">إلى</label>
+                <select id="toCurrency" class="currency-select">
+                  <option value="EUR">EUR — اليورو / Euro</option>
+                  <option value="USD">USD — الدولار الأمريكي / US Dollar</option>
+                  <option value="TRY">TRY — الليرة التركية / Turkish Lira</option>
+                  <option value="SYP">SYP — الليرة السورية / Syrian Pound</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="rate-summary" id="rateSummary"></div>
+
+            <div class="actions">
+              <button class="btn btn-primary" id="convertBtn">تحويل</button>
+              <button class="btn btn-secondary" id="resetBtn">إعادة تعيين</button>
+              <button class="btn btn-secondary" id="refreshBtn" type="button">تحديث الأسعار</button>
+            </div>
+
+            <div class="status" id="statusBox">جاري تحميل أسعار الصرف...</div>
+
+            <div class="result-card" id="resultCard">
+              <h3>النتيجة</h3>
+              <div class="amount" id="convertedAmount">0.00</div>
+              <div class="meta" id="conversionMeta">انتظر حتى يتم تحميل الأسعار...</div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="app-footer">
+          <button id="logoutBtn" class="btn btn-secondary">تسجيل الخروج</button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
