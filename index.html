@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>محول العملات</title>
+    <title>محول العملات - نور النجار</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -13,14 +13,12 @@
           <div class="badge">🔐 حسابك</div>
           <h1 id="authTitle">تسجيل الدخول</h1>
           <p id="authSubtitle">سجل دخولك أو أنشئ حسابًا جديدًا لبدء استخدام محول العملات.</p>
-
           <form id="authForm" class="auth-form">
             <input id="authName" type="text" placeholder="الاسم الكامل" autocomplete="name" />
             <input id="authEmail" type="email" placeholder="البريد الإلكتروني" autocomplete="email" required />
             <input id="authPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required />
             <button class="btn btn-primary full-width" type="submit" id="authSubmitBtn">تسجيل الدخول</button>
           </form>
-
           <button id="toggleAuthModeBtn" class="link-btn" type="button">ليس لديك حساب؟ أنشئ حسابًا</button>
           <div id="authMessage" class="status hidden"></div>
         </div>
@@ -33,7 +31,7 @@
             <p>حول الأموال بسرعة وبشكل عملي</p>
           </div>
           <div class="topbar-badges">
-            <span class="mini-badge">⚡ أسعار حية</span>
+            <span class="mini-badge">⚡️ أسعار حية</span>
             <span class="mini-badge">🔒 حساب آمن</span>
           </div>
         </header>
@@ -45,7 +43,7 @@
               <h2>محول العملات الذكي</h2>
             </div>
             <p class="subtext">حوّل بين الدولار واليورو والليرة التركية والسورية في لحظة واحدة باستخدام أحدث الأسعار المتاحة.</p>
-
+            
             <div class="field">
               <label for="amount">المبلغ</label>
               <input id="amount" type="number" min="0" step="0.01" value="100" />
@@ -67,35 +65,22 @@
               <div class="field">
                 <label for="toCurrency">إلى</label>
                 <select id="toCurrency" class="currency-select">
-                  <option value="EUR">EUR — اليورو / Euro</option>
+                  <option value="SYP" selected>SYP — الليرة السورية / Syrian Pound</option>
                   <option value="USD">USD — الدولار الأمريكي / US Dollar</option>
+                  <option value="EUR">EUR — اليورو / Euro</option>
                   <option value="TRY">TRY — الليرة التركية / Turkish Lira</option>
-                  <option value="SYP">SYP — الليرة السورية / Syrian Pound</option>
                 </select>
               </div>
             </div>
 
-            <div class="rate-summary" id="rateSummary"></div>
-
-            <div class="actions">
-              <button class="btn btn-primary" id="convertBtn">تحويل</button>
-              <button class="btn btn-secondary" id="resetBtn">إعادة تعيين</button>
-              <button class="btn btn-secondary" id="refreshBtn" type="button">تحديث الأسعار</button>
+            <div class="result-box">
+              <span class="result-label">النتيجة:</span>
+              <h3 id="resultValue">0.00</h3>
             </div>
-
-            <div class="status" id="statusBox">جاري تحميل أسعار الصرف...</div>
-
-            <div class="result-card" id="resultCard">
-              <h3>النتيجة</h3>
-              <div class="amount" id="convertedAmount">0.00</div>
-              <div class="meta" id="conversionMeta">انتظر حتى يتم تحميل الأسعار...</div>
-            </div>
+            
+            <button id="logoutBtn" class="btn btn-secondary full-width" type="button">تسجيل الخروج</button>
           </div>
         </section>
-
-        <footer class="app-footer">
-          <button id="logoutBtn" class="btn btn-secondary">تسجيل الخروج</button>
-        </footer>
       </div>
     </div>
 
